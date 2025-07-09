@@ -1,8 +1,9 @@
 import { Request, Response } from "express";
 import { fetchDogs, likeDog } from "../services/dogs_service";
-import { DogsResponse } from "../interface";
+import { Dog } from "../interface";
 
-export const getDogs = async (req: Request, res: Response<DogsResponse>) => {
+// Получаем всех собак
+export const getDogs = async (req: Request, res: Response<Dog[]>) => {
   try {
     const dogs = await fetchDogs();
     res.json(dogs);
@@ -11,6 +12,7 @@ export const getDogs = async (req: Request, res: Response<DogsResponse>) => {
   }
 };
 
+// Ставим лайк
 export const postLike = async (req: Request<{ id: string }>, res: Response) => {
   try {
     const likes = likeDog(req.params.id);
