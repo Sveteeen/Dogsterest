@@ -1,7 +1,7 @@
 import axios from "axios";
-import { Dog } from "../interface";
+import { Dog } from "../types/interface";
 
-const API_URL = "https://random.dog"; 
+const API_URL = "https://random.dog";
 
 const likes: Record<string, number> = {};
 
@@ -23,8 +23,8 @@ export const fetchDogs = async (): Promise<Dog[]> => {
 
     const dogs = validFiles.map((filename) => ({
       filename,
-      url: `${API_URL}/${filename}`, 
-      likes: likes[filename] || 0,   
+      url: `${API_URL}/${filename}`,
+      likes: likes[filename] || 0,
       fileType: getFileType(filename),
     }));
 
@@ -38,5 +38,10 @@ export const fetchDogs = async (): Promise<Dog[]> => {
 // Ставим лайк собаке
 export const likeDog = (dogId: string): number => {
   likes[dogId] = (likes[dogId] || 0) + 1;
+  return likes[dogId];
+};
+
+export const unlikeDog = (dogId: string): number => {
+  likes[dogId] = Math.max((likes[dogId] || 0) - 1, 0);
   return likes[dogId];
 };
